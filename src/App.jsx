@@ -4,46 +4,34 @@ import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+  const [targetIp, setTargetIp] = useState("");
+  const [wordlistPath, setWordlistPath] = useState("");
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
+  async function scan() {
+    await invoke("init_sniffer", { targetIp, wordlistPath });
   }
 
   return (
     <main className="container">
-      <h1>Welcome to Tauri + React</h1>
-
-      <div className="row">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
       <form
         className="row"
         onSubmit={(e) => {
           e.preventDefault();
-          greet();
+          scan();
         }}
       >
         <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
+          id="targetIp-input"
+          onChange={(e) => setTargetIp(e.currentTarget.value)}
+          placeholder="Enter target IP"
         />
-        <button type="submit">Greet</button>
+        <input
+          id="wordlistPath-input"
+          onChange={(e) => setWordlistPath(e.currentTarget.value)}
+          placeholder="Enter wordlist path"
+        />
+        <button type="submit">Scan</button>
       </form>
-      <p>{greetMsg}</p>
     </main>
   );
 }

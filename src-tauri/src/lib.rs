@@ -9,8 +9,6 @@ pub fn run() {
     // Set the default log level to info
     env::set_var("RUST_LOG", "info");
 
-    commands::commands::start_scanner();
-
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![init_sniffer, init_enum])
@@ -19,11 +17,11 @@ pub fn run() {
 }
 
 #[tauri::command]
-async fn init_sniffer() {
-    commands::commands::start_scanner();
+fn init_sniffer(target_ip: String, wordlist_path: String) {
+    commands::commands::start_scanner(target_ip, wordlist_path);
 }
 
 #[tauri::command]
-async fn init_enum() {
+fn init_enum() {
     commands::commands::start_enumerator();
 }
