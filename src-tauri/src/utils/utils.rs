@@ -1,12 +1,19 @@
 use std::fs;
 
 pub fn read_wordlist(dir: &str) -> Result<Vec<String>, &str> {
-    let mut wordlist: Vec<String> = Vec::new();
     match fs::read_to_string(dir) {
-        Ok(content) => { 
-            wordlist.push(content); 
-            return Ok(wordlist);
+        Ok(content) => {
+            let wordlist: Vec<String> = content
+                .lines()
+                .filter(|line| !line.trim().is_empty())
+                .map(|line: &str| line.to_string())
+                .collect();
+            Ok(wordlist)
         }
-        Err(_) => { return Err("Failed to load a file!") }
+        Err(_) => Err("Failed to load a file!"),
     }
+}
+
+pub fn construct_payload(target_ip: &String, word: &String) -> String {
+    target_ip.to_owned() + ":8080/" + word // NOTE: 8080 is a placeholder for now, then give user an option to input port_no
 }
