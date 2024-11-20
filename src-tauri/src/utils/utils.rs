@@ -15,5 +15,5 @@ pub fn read_wordlist(dir: &str) -> Result<Vec<String>, &str> {
 }
 
 pub fn construct_payload(target_ip: &String, word: &String) -> String {
-    target_ip.to_owned() + ":8080/" + word // NOTE: 8080 is a placeholder for now, then give user an option to input port_no
+    format!("http://{}:80/{}", target_ip, word) // NOTE: 8080 is a placeholder for now, then give user an option to input port_no
 }

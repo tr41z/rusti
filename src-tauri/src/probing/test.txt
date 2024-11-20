@@ -24,3 +24,7 @@ fh
 hr
 g
 rw
+
+
+images/favicon.ico
+images
