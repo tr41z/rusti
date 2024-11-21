@@ -1,17 +1,27 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
+import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
 import { listen } from "@tauri-apps/api/event";
-import ScanResults from "./views/ScanResults";
 
 function App() {
   const [targetIp, setTargetIp] = useState("");
   const [wordlistPath, setWordlistPath] = useState("");
-
+  const [scanResults, setScanResults] = useState([]);
+  
   async function scan() {
     await invoke("init_sniffer", { targetIp, wordlistPath });
   }
+
+  async function fetchScanResults() {
+    await listen("scan_results", (event) => {
+      setScanResults(event.payload);
+      console.log(event.payload)
+    })
+  }
+
+  useEffect(() => {
+    fetchScanResults();
+  }, [])
 
   return (
     <main className="container">
@@ -34,6 +44,14 @@ function App() {
         />
         <button type="submit">Scan</button>
       </form>
+      {Object.entries(scanResults).map(([endp, code]) => {
+        return (
+          <div>
+            <p>{endp}</p>
+            <p>{code}</p>
+          </div>
+        );
+      })}
     </main>
   );
 }
