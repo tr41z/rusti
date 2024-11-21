@@ -1,5 +1,7 @@
 use std::{env, net::IpAddr};
 
+use tauri::AppHandle;
+
 mod commands;
 mod probing;
 mod utils;
@@ -17,8 +19,8 @@ pub fn run() {
 }
 
 #[tauri::command]
-fn init_sniffer(target_ip: IpAddr, wordlist_path: String) {
-    commands::commands::start_scanner(target_ip, wordlist_path);
+fn init_sniffer(target_ip: IpAddr, wordlist_path: String, app_handle: AppHandle) {
+    commands::commands::start_scanner(target_ip, wordlist_path, app_handle);
 }
 
 #[tauri::command]

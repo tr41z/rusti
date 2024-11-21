@@ -2,6 +2,8 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
+import { listen } from "@tauri-apps/api/event";
+import ScanResults from "./views/ScanResults";
 
 function App() {
   const [targetIp, setTargetIp] = useState("");
@@ -32,6 +34,7 @@ function App() {
         />
         <button type="submit">Scan</button>
       </form>
+      <ScanResults />
     </main>
   );
 }
