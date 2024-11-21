@@ -5,6 +5,7 @@ use crate::utils::utils::{self, construct_payload};
 use reqwest::blocking;
 use tauri::{AppHandle, Emitter};
 
+// NOTE: use `headless_chrome = "0.9.0"` for taking screenshots of live endpoints (200, 301, 302 etc..)
 pub fn start_scanner(target_ip: IpAddr, wordlist_path: String, app_handle: AppHandle) {
     let mut scan_results: HashMap<String, u16> = HashMap::new();
 
