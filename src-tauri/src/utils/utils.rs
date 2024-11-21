@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs, net::IpAddr};
 
 pub fn read_wordlist(dir: &str) -> Result<Vec<String>, &str> {
     match fs::read_to_string(dir) {
@@ -14,6 +14,10 @@ pub fn read_wordlist(dir: &str) -> Result<Vec<String>, &str> {
     }
 }
 
-pub fn construct_payload(target_ip: &String, word: &String) -> String {
-    format!("http://{}:80/{}", target_ip, word) // NOTE: 8080 is a placeholder for now, then give user an option to input port_no
+pub fn construct_payload<'a>(target_ip: IpAddr, word: &'a str) -> Result<String, &'a str> {
+    if target_ip.is_ipv4() || target_ip.is_unspecified() {
+        Ok(format!("http://{}:80/{}", target_ip, word)) // NOTE: 8080 is a placeholder for now, then give user an option to input port_no
+    } else {
+        Err("Not valid ipv4 address!")
+    }
 }

@@ -1,4 +1,4 @@
-use std::env;
+use std::{env, net::IpAddr};
 
 mod commands;
 mod probing;
@@ -17,7 +17,7 @@ pub fn run() {
 }
 
 #[tauri::command]
-fn init_sniffer(target_ip: String, wordlist_path: String) {
+fn init_sniffer(target_ip: IpAddr, wordlist_path: String) {
     commands::commands::start_scanner(target_ip, wordlist_path);
 }
 
