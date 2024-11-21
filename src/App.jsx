@@ -34,7 +34,6 @@ function App() {
         />
         <button type="submit">Scan</button>
       </form>
-      <ScanResults />
     </main>
   );
 }
