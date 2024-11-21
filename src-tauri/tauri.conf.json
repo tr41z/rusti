@@ -14,7 +14,10 @@
       {
         "title": "rusti",
         "width": 1100,
-        "height": 700
+        "height": 700,
+        "minHeight": 700,
+        "minWidth": 1100,
+        "resizable": true
       }
     ],
     "security": {
