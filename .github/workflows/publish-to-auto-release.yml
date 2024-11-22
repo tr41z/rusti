@@ -61,7 +61,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ env.VERSION }}
         with:
-          tagName: "app-v${{ env.VERSION }}"
+          tagName: "rusti-v${{ env.VERSION }}"
           releaseName: "rusti v${{ env.VERSION }}"
           releaseBody: "See the assets to download this version and install."
           releaseDraft: true
