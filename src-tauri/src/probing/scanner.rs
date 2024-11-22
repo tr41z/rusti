@@ -6,13 +6,13 @@ use reqwest::blocking;
 use tauri::{AppHandle, Emitter};
 
 // NOTE: use `headless_chrome = "0.9.0"` for taking screenshots of live endpoints (200, 301, 302 etc..)
-pub fn start_scanner(target_ip: IpAddr, wordlist_path: String, app_handle: AppHandle) {
+pub fn start_scanner(target_ip: IpAddr, target_port: &str, wordlist_path: String, app_handle: AppHandle) {
     let mut scan_results: HashMap<String, u16> = HashMap::new();
 
     match utils::read_wordlist(&wordlist_path) {
         Ok(wordlist) => {
             for word in wordlist.iter() {
-                let payload: String = construct_payload(target_ip, word).unwrap();
+                let payload: String = construct_payload(target_ip, target_port, word).unwrap();
                 match blocking::get(&payload) {
                     Ok(res) => {
                         scan_results.insert(payload.clone(), res.status().as_u16());

@@ -44,18 +44,20 @@ mod tests {
     #[test]
     fn test_construct_payload_success() {
         let target_ip: IpAddr = IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1));
+        let target_port:&str = "80";
         let word = "word1";
 
-        let result = construct_payload(target_ip, word).unwrap();
+        let result = construct_payload(target_ip, target_port, word).unwrap();
         assert_eq!(result, "http://127.0.0.1:80/word1");
     }
 
     #[test]
     fn test_construct_payload_failed() {
         let target_ip: IpAddr = IpAddr::V6(Ipv6Addr::new(12, 12, 12, 12, 12, 12, 12, 12));
+        let target_port:&str = "80";
         let word = "word1";
 
-        let result = construct_payload(target_ip, word);
+        let result = construct_payload(target_ip, target_port, word);
         assert_eq!(result, Err("Not valid ipv4 address!"));
     }
 }

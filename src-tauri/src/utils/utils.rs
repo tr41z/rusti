@@ -14,9 +14,9 @@ pub fn read_wordlist(dir: &str) -> Result<Vec<String>, &str> {
     }
 }
 
-pub fn construct_payload<'a>(target_ip: IpAddr, word: &'a str) -> Result<String, &'a str> {
+pub fn construct_payload<'a>(target_ip: IpAddr, target_port: &str, word: &'a str) -> Result<String, &'a str> {
     if target_ip.is_ipv4() || target_ip.is_unspecified() {
-        Ok(format!("http://{}:8080/{}", target_ip, word)) // NOTE: 8080 is a placeholder for now, then give user an option to input port_no
+        Ok(format!("http://{}:{}/{}", target_ip, target_port, word)) // NOTE: 8080 is a placeholder for now, then give user an option to input port_no
     } else {
         Err("Not valid ipv4 address!")
     }

@@ -5,11 +5,12 @@ import { listen } from "@tauri-apps/api/event";
 
 function App() {
   const [targetIp, setTargetIp] = useState("");
+  const [targetPort, setTargetPort] = useState("");
   const [wordlistPath, setWordlistPath] = useState("");
   const [scanResults, setScanResults] = useState([]);
   
   async function scan() {
-    await invoke("init_sniffer", { targetIp, wordlistPath });
+    await invoke("init_sniffer", { targetIp, targetPort, wordlistPath });
   }
 
   async function fetchScanResults() {
@@ -33,17 +34,25 @@ function App() {
             scan();
           }}
         >
-          <input
-            id="targetIp-input"
-            className="input"
-            onChange={(e) => setTargetIp(e.currentTarget.value)}
-            placeholder="Enter target IP"
-          />
+          <div className="ip-port">
+            <input
+              id="targetIp-input"
+              className="input-ip"
+              onChange={(e) => setTargetIp(e.currentTarget.value)}
+              placeholder="target ip address..."
+            />
+            <input
+              id="targetIp-input"
+              className="input-port"
+              onChange={(e) => setTargetPort(e.currentTarget.value)}
+              placeholder="port number..."
+            />
+          </div>
           <input
             id="wordlistPath-input"
             className="input"
             onChange={(e) => setWordlistPath(e.currentTarget.value)}
-            placeholder="Enter wordlist path"
+            placeholder="/usr/share/wordlists/..."
           />
           <button type="submit" className="submit-button">
             Scan
@@ -86,7 +95,13 @@ function App() {
           })}
       </div>
       <div className="preview">
-        <img src="public/test.png" width={530} height={650} alt="preview-img" />
+        <img
+          src="/test.png"
+          width={530}
+          height={650}
+          alt="preview-img"
+          className="preview-img"
+        />
       </div>
     </main>
   );

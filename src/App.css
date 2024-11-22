@@ -8,13 +8,12 @@ html {
 
 .options-container {
   position: absolute;
-  border-radius: 10px 0px 0px 0px;
   top: 0;
   left: 0;
   width: 50vw; /* 50% of the viewport width */
   height: 50vh; /* 50% of the viewport height */
   background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
-  border: 1px solid #a2d2ff;
+  border: 1px solid #adb5bd;
   color: white;
   overflow-y: auto; /* Scrollbar for overflow */
   padding: 10px;
@@ -29,7 +28,7 @@ html {
   width: 50vw; /* 50% of the viewport width */
   height: 50vh; /* 50% of the viewport height */
   background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
-  border: 1px solid #a2d2ff;
+  border: 1px solid #adb5bd;
   color: white;
   overflow-y: auto; /* Scrollbar for overflow */
   padding: 10px;
@@ -44,24 +43,28 @@ html {
   width: 50vw; /* 50% of the viewport width */
   height: 100vh; /* 50% of the viewport height */
   background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
-  border: 1px solid #a2d2ff;
+  border: 1px solid #adb5bd;
   color: white;
-  overflow-y: hidden; /* Scrollbar for overflow */
+  overflow: hidden; /* Scrollbar for overflow */
   padding: 10px;
   box-sizing: border-box;
+}
+
+.preview-img {
+  border-radius: 10px;
 }
 
 .results-elements {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
   background: none;
   border: none;
   cursor: pointer;
   width: 100%;
-  border-radius: 50px;
-  padding: 5px;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .results-elements:hover {
@@ -99,4 +102,25 @@ html {
   border-radius: 10px;
   border: none;
   cursor: pointer;
+}
+
+.input-port {
+  width: 20%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+}
+
+.input-ip {
+  width: 70%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+}
+
+.ip-port {
+  display: flex;
+  justify-content: space-between;
 }
