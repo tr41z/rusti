@@ -3,7 +3,7 @@ name: "publish"
 on:
   push:
     branches:
-      - main
+      - release
 
 jobs:
   publish-tauri:
@@ -49,10 +49,10 @@ jobs:
       - name: Install frontend dependencies
         run: yarn install
 
-      - name: Extract version from tauri.conf.json
+      - name: Extract version from src-tauri/tauri.conf.json
         id: version
         run: |
-          VERSION=$(jq -r .version tauri.conf.json)
+          VERSION=$(jq -r .version src-tauri/tauri.conf.json)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - uses: tauri-apps/tauri-action@v0
