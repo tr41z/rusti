@@ -1,31 +1,30 @@
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import "./App.css";
 import { listen } from "@tauri-apps/api/event";
+import "./App.css";
 
 function App() {
   const [targetIp, setTargetIp] = useState("");
   const [targetPort, setTargetPort] = useState("");
   const [wordlistPath, setWordlistPath] = useState("");
   const [scanResults, setScanResults] = useState([]);
-  
+  const [selectedPreview, setSelectedPreview] = useState(null);
+
   async function scan() {
     await invoke("init_sniffer", { targetIp, targetPort, wordlistPath });
   }
 
-  async function fetchScanResults() {
-    await listen("scan_results", (event) => {
-      setScanResults(event.payload);
-      console.log(event.payload)
-    })
-  }
-
   useEffect(() => {
-    fetchScanResults();
-  }, [])
+    // Fetch scan results
+    listen("scan_results", (event) => {
+      setScanResults(event.payload);
+      console.log(event.payload);
+    });
+  }, []);
 
   return (
     <main>
+      {/* Options form */}
       <div className="options-container">
         <form
           className="row"
@@ -36,20 +35,17 @@ function App() {
         >
           <div className="ip-port">
             <input
-              id="targetIp-input"
               className="input-ip"
               onChange={(e) => setTargetIp(e.currentTarget.value)}
-              placeholder="target ip address..."
+              placeholder="target IP address..."
             />
             <input
-              id="targetIp-input"
               className="input-port"
               onChange={(e) => setTargetPort(e.currentTarget.value)}
               placeholder="port number..."
             />
           </div>
           <input
-            id="wordlistPath-input"
             className="input"
             onChange={(e) => setWordlistPath(e.currentTarget.value)}
             placeholder="/usr/share/wordlists/..."
@@ -59,6 +55,8 @@ function App() {
           </button>
         </form>
       </div>
+
+      {/* Scan results */}
       <div className="results-container">
         {Object.entries(scanResults)
           .sort(([endpointA, codeA], [endpointB, codeB]) => {
@@ -72,7 +70,6 @@ function App() {
             if (codeA !== codeB) {
               return codeA - codeB;
             }
-            // Finally, sort alphabetically by endpoint
             return endpointA.localeCompare(endpointB);
           })
           .map(([endpoint, code]) => {
@@ -87,21 +84,29 @@ function App() {
             }
 
             return (
-              <button className="results-elements" key={endpoint}>
+              <button
+                className="results-elements"
+                key={endpoint}
+                onClick={() => setSelectedPreview(endpoint)} // Update selected preview
+              >
                 <p>{endpoint}</p>
-                <p style={{ color: codeColor }}>{code}</p>{" "}
+                <p style={{ color: codeColor }}>{code}</p>
               </button>
             );
           })}
       </div>
+
+      {/* Selected preview */}
       <div className="preview">
-        <img
-          src="/test.png"
-          width={530}
-          height={650}
-          alt="preview-img"
-          className="preview-img"
-        />
+        {selectedPreview ? (
+          <iframe
+            className="preview-iframe"
+            src={selectedPreview}
+            title="Selected Preview"
+          />
+        ) : (
+          <p>Select an endpoint to preview</p>
+        )}
       </div>
     </main>
   );
