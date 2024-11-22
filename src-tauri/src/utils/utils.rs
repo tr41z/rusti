@@ -1,7 +1,5 @@
-use std::{error::Error, fs, net::IpAddr};
+use std::{fs, net::IpAddr};
 
-use headless_chrome::{protocol::cdp::Page::CaptureScreenshotFormatOption, types::Bounds, Browser, LaunchOptionsBuilder};
-use sanitize_filename::sanitize;
 
 pub fn read_wordlist(dir: &str) -> Result<Vec<String>, &str> {
     match fs::read_to_string(dir) {
