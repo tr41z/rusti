@@ -62,8 +62,8 @@ jobs:
           VERSION: ${{ env.VERSION }}
         with:
           tagName: "app-v${{ env.VERSION }}"
-          releaseName: "App v${{ env.VERSION }}"
+          releaseName: "rusti v${{ env.VERSION }}"
           releaseBody: "See the assets to download this version and install."
-          releaseDraft: false
+          releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
