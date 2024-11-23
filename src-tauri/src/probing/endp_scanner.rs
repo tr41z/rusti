@@ -7,6 +7,7 @@ use tauri::{AppHandle, Emitter};
 
 pub fn start_scanner(target_ip: IpAddr, target_port: &str, wordlist_path: &str, app_handle: AppHandle) {
     let mut scan_results: HashMap<String, u16> = HashMap::new(); // HashMap for storing scan results (endpoint, code)
+    let _client: reqwest::Client = reqwest::Client::new(); // PERF: implement header input processing
 
     // Validate if the target host is reachable
     if !is_host_reachable(target_ip, target_port) {

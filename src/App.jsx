@@ -49,7 +49,6 @@ function App() {
     // Listen for scan results
     const unlistenResults = listen("scan_results", (event) => {
       setScanResults(event.payload);
-      console.log("Scan results:", event.payload);
     });
 
     // Listen for scan errors
@@ -109,7 +108,14 @@ function App() {
       {/* Scan results */}
       <div className="results-container">
         {scanResults.length === 0 ? (
-          <p className="no-endpoint">Your endpoints will appear here</p>
+          <div className="no-endp-warn-container">
+            <p className="no-endpoint">Your endpoints will appear here</p>
+            <p className="warning">
+              Use this tool responsibly. Any actions performed are solely the
+              user's responsibility, and misuse may have legal or ethical
+              implications.
+            </p>
+          </div>
         ) : (
           Object.entries(scanResults)
             .sort(([endpointA, codeA], [endpointB, codeB]) => {
@@ -140,7 +146,10 @@ function App() {
                 <button
                   className="results-elements"
                   key={endpoint}
-                  onClick={() => setSelectedPreview(endpoint)} // update selected preview
+                  onClick={(e) =>  {
+                    setSelectedPreview(endpoint); // update selected preview
+                    e.target.classList.toggle('active');
+                  }}
                 >
                   <p>{endpoint}</p>
                   <p style={{ color: codeColor }}>{code}</p>

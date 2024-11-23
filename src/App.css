@@ -170,3 +170,28 @@ html {
   letter-spacing: 4px;
   font-weight: lighter;
 }
+
+.warning {
+  color: gray;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-weight: lighter;
+  font-size: 10px;
+  margin-inline: 10px;
+}
+
+.no-endp-warn-container {
+  justify-content: center;
+  align-items: center;
+  display: flex-row;
+  margin-top: 40px;
+}
+
+.active {
+  background-color: #6b9080;
+}
+
+.active:hover {
+  background-color: #6b9080;
+}
