@@ -146,10 +146,11 @@ function App() {
                 <button
                   className="results-elements"
                   key={endpoint}
-                  onClick={(e) =>  {
+                  onClick={(e) => {
                     setSelectedPreview(endpoint); // update selected preview
-                    e.target.classList.toggle('active');
+                    e.currentTarget.classList.toggle('active');
                   }}
+                  style={{ borderColor: codeColor }} // set initial border color
                 >
                   <p>{endpoint}</p>
                   <p style={{ color: codeColor }}>{code}</p>

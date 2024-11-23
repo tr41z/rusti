@@ -82,7 +82,7 @@ html {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
   background: none;
   border: none;
   cursor: pointer;
