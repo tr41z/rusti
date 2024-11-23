@@ -1,4 +1,4 @@
-use std::{fs, net::IpAddr};
+use std::{fs, net::{IpAddr, TcpStream}, time::Duration};
 
 // Function to retrieve words in each line in wordlist and return them in Vector
 pub fn read_wordlist(dir: &str) -> Result<Vec<String>, &str> {
@@ -22,4 +22,10 @@ pub fn construct_payload<'a>(target_ip: IpAddr, target_port: &str, word: &'a str
     } else {
         Err("Not valid ipv4 address!")
     }
+}
+
+// Validates if the host is reachable by attempting a TCP connection
+pub fn is_host_reachable(target_ip: IpAddr, target_port: &str) -> bool {
+    let address = format!("{}:{}", target_ip, target_port);
+    TcpStream::connect_timeout(&address.parse().unwrap(), Duration::from_secs(3)).is_ok()
 }

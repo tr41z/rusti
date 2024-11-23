@@ -114,8 +114,9 @@ html {
   padding: 10px;
   border-radius: 10px;
   border: none;
-  font-weight: bold;
   background-color: #f0f0ff;
+  font-size: small;
+  letter-spacing: 1px;
 }
 
 .submit-button {
@@ -142,7 +143,8 @@ html {
   padding: 10px;
   border-radius: 10px;
   border: none;
-  font-weight: bold;
+  font-size: small;
+  letter-spacing: 1px;
   background-color: #f0f0ff;
 }
 
@@ -151,11 +153,20 @@ html {
   padding: 10px;
   border-radius: 10px;
   border: none;
-  font-weight: bold;
+  font-size: small;
+  letter-spacing: 1px;
   background-color: #f0f0ff;
 }
 
 .ip-port {
   display: flex;
   justify-content: space-between;
+}
+
+.no-endpoint {
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-weight: lighter;
 }
