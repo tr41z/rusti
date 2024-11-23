@@ -1,7 +1,7 @@
-# Tauri + React
+###### ***rusti is still under development***
 
-This template should help get you started developing with Tauri and React in Vite.
+## ⚠️ Disclaimer
 
-## Recommended IDE Setup
+### Important Notice:
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+#### Running `rusti` against targets without explicit permission is illegal. Ensure you have proper authorization before using this tool on any system. The developers of `rusti` are not responsible for any misuse or damage caused by this tool. Use it responsibly and ethically.

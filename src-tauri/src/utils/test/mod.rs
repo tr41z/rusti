@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use std::{fs, net::{IpAddr, Ipv4Addr, Ipv6Addr}};
+    use std::{fs, net::{IpAddr, Ipv4Addr, Ipv6Addr, TcpStream}, time::Duration};
 
     use crate::utils::utils::{construct_payload, read_wordlist};
 
@@ -59,5 +59,25 @@ mod tests {
 
         let result = construct_payload(target_ip, target_port, word);
         assert_eq!(result, Err("Not valid ipv4 address!"));
+    }
+
+    #[test]
+    fn is_host_reachable_success() {
+        let target_ip: IpAddr = IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1));
+        let target_port = "8080"; // remember to run http server on port 8080 before running test
+        let address = format!("{}:{}", target_ip, target_port);
+        
+        let connection_test: bool = TcpStream::connect_timeout(&address.parse().unwrap(), Duration::from_secs(3)).is_ok();
+        assert_eq!(connection_test, true);
+    }
+
+    #[test]
+    fn is_host_reachable_failed() {
+        let target_ip: IpAddr = IpAddr::V4(Ipv4Addr::new(127, 0, 0, 0)); // not valid address
+        let target_port = "8080";
+        let address = format!("{}:{}", target_ip, target_port);
+        
+        let connection_test: bool = TcpStream::connect_timeout(&address.parse().unwrap(), Duration::from_secs(3)).is_ok();
+        assert_eq!(connection_test, false);
     }
 }

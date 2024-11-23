@@ -8,7 +8,7 @@ mod utils;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    // Set the default log level to info
+    // Set the default log level to info to get terminal output
     env::set_var("RUST_LOG", "info");
 
     tauri::Builder::default()
@@ -19,7 +19,7 @@ pub fn run() {
 }
 
 #[tauri::command]
-fn init_sniffer(target_ip: IpAddr, target_port: &str, wordlist_path: String, app_handle: AppHandle) {
+fn init_sniffer(target_ip: IpAddr, target_port: &str, wordlist_path: &str, app_handle: AppHandle) {
     commands::commands::start_scanner(target_ip, target_port, wordlist_path, app_handle);
 }
 

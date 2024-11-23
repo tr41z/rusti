@@ -1,2 +1,3 @@
-pub mod scanner;
-pub mod enumerator;
+/* Modules exposure */
+pub mod endp_scanner;
+pub mod sub_enumerator;
