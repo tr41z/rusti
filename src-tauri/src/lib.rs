@@ -8,7 +8,7 @@ mod utils;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    // Set the default log level to info
+    // Set the default log level to info to get terminal output
     env::set_var("RUST_LOG", "info");
 
     tauri::Builder::default()

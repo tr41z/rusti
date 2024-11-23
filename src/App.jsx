@@ -87,7 +87,7 @@ function App() {
               <button
                 className="results-elements"
                 key={endpoint}
-                onClick={() => setSelectedPreview(endpoint)} // Update selected preview
+                onClick={() => setSelectedPreview(endpoint)} // update selected preview
               >
                 <p>{endpoint}</p>
                 <p style={{ color: codeColor }}>{code}</p>
