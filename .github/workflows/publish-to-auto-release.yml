@@ -18,79 +18,44 @@ jobs:
           - platform: "macos-latest"
             args: "--target x86_64-apple-darwin"
           - platform: "ubuntu-22.04"
-            args: "--target aarch64-unknown-linux-gnu"
-          - platform: "ubuntu-22.04"
-            args: "--target armv7-unknown-linux-gnueabihf"
+            args: ""
           - platform: "windows-latest"
-            args: "--target x86_64-pc-windows-msvc"
+            args: ""
 
     runs-on: ${{ matrix.platform }}
     steps:
-      # Check out the repository
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # Set up Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
-      # Install Rust and add required targets
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: |
-            ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
-            ${{ matrix.platform == 'ubuntu-22.04' && 'aarch64-unknown-linux-gnu,armv7-unknown-linux-gnueabihf' || '' }}
-            ${{ matrix.platform == 'windows-latest' && 'x86_64-pc-windows-msvc' || '' }}
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
-      # Install Linux-specific dependencies
-      - name: Install dependencies (Linux only)
+      - name: Install dependencies (Ubuntu only)
         if: matrix.platform == 'ubuntu-22.04'
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            libwebkit2gtk-4.0-dev \
-            libwebkit2gtk-4.1-dev \
-            libappindicator3-dev \
-            librsvg2-dev \
-            patchelf \
-            gcc-aarch64-linux-gnu \
-            gcc-arm-linux-gnueabihf \
-            libc6-dev-armhf-cross \
-            libc6-dev-arm64-cross \
-            libglib2.0-dev:armhf \
-            libglib2.0-dev:arm64
+          sudo apt-get install -y libwebkit2gtk-4.0-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
-      # Configure pkg-config for ARM cross-compilation
-      - name: Configure pkg-config for ARM (Linux only)
-        if: matrix.platform == 'ubuntu-22.04'
-        run: |
-          export PKG_CONFIG_ALLOW_CROSS=1
-          if [[ "${{ matrix.args }}" == *"armv7-unknown-linux-gnueabihf"* ]]; then
-            export PKG_CONFIG_SYSROOT_DIR=/usr/arm-linux-gnueabihf
-            export PKG_CONFIG_PATH=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig
-          elif [[ "${{ matrix.args }}" == *"aarch64-unknown-linux-gnu"* ]]; then
-            export PKG_CONFIG_SYSROOT_DIR=/usr/aarch64-linux-gnu
-            export PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
-          fi
-
-      # Install Rust for Windows (if required)
-      - name: Install Rust for Windows
+      - name: Install Rust for Windows (if required)
         if: runner.os == 'Windows'
         run: rustup target add x86_64-pc-windows-msvc
 
-      # Install frontend dependencies
       - name: Install frontend dependencies
         run: yarn install
 
-      # Extract version from src-tauri/tauri.conf.json
-      - name: Extract version
+      - name: Extract version from src-tauri/tauri.conf.json (Windows)
         id: version
-        run: echo "VERSION=$(jq -r .version src-tauri/tauri.conf.json)" >> $GITHUB_ENV
+        shell: pwsh
+        run: |
+          $VERSION = (jq -r .version src-tauri/tauri.conf.json)
+          echo "VERSION=$VERSION" >> $env:GITHUB_ENV
 
-      # Build and publish the app
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
