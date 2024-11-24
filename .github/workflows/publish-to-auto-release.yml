@@ -57,7 +57,24 @@ jobs:
             librsvg2-dev \
             patchelf \
             gcc-aarch64-linux-gnu \
-            gcc-arm-linux-gnueabihf
+            gcc-arm-linux-gnueabihf \
+            libc6-dev-armhf-cross \
+            libc6-dev-arm64-cross \
+            libglib2.0-dev:armhf \
+            libglib2.0-dev:arm64
+
+      # Configure pkg-config for ARM cross-compilation
+      - name: Configure pkg-config for ARM (Linux only)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          export PKG_CONFIG_ALLOW_CROSS=1
+          if [[ "${{ matrix.args }}" == *"armv7-unknown-linux-gnueabihf"* ]]; then
+            export PKG_CONFIG_SYSROOT_DIR=/usr/arm-linux-gnueabihf
+            export PKG_CONFIG_PATH=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig
+          elif [[ "${{ matrix.args }}" == *"aarch64-unknown-linux-gnu"* ]]; then
+            export PKG_CONFIG_SYSROOT_DIR=/usr/aarch64-linux-gnu
+            export PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
+          fi
 
       # Install Rust for Windows (if required)
       - name: Install Rust for Windows
