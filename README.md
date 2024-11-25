@@ -24,7 +24,7 @@ Here’s a demonstration of how the live preview feature works. Simply click on 
 
 - Interactive directory scanner with a real-time preview of endpoints.
 - No need to open each endpoint in the browser manually.
-- Seamless exploration of `/js`, `/robots.txt`, and more.
+- Seamless exploration of all live endpoints: `/js`, `/robots.txt`, and more, just like a browser and scanner in one!
 
 ---
 
