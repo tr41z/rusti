@@ -1,8 +1,12 @@
 #[cfg(test)]
 mod tests {
-    use std::{fs, net::{IpAddr, Ipv4Addr, Ipv6Addr, TcpStream}, time::Duration};
+    use std::{
+        fs,
+        net::{IpAddr, Ipv4Addr, Ipv6Addr, TcpStream},
+        time::Duration,
+    };
 
-    use crate::utils::utils::{construct_payload, read_wordlist};
+    use crate::utils::utilities::{construct_payload, read_wordlist};
 
     #[test]
     fn test_read_wordlist_success() {
@@ -15,7 +19,7 @@ mod tests {
 
         assert!(result.is_ok());
         let wordlist: Vec<String> = result.unwrap();
-        
+
         assert_eq!(wordlist, vec!["images", "images/favicon.ico", "word3"]);
     }
 
@@ -30,7 +34,7 @@ mod tests {
 
         assert!(result.is_ok());
         let wordlist: Vec<String> = result.unwrap();
-        
+
         assert_eq!(wordlist, vec!["images", "images/favicon.ico", "word3"]);
     }
 
@@ -86,8 +90,9 @@ mod tests {
         let target_ip: IpAddr = IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1));
         let target_port = "8080"; // remember to run http server on port 8080 before running test
         let address = format!("{}:{}", target_ip, target_port);
-        
-        let connection_test: bool = TcpStream::connect_timeout(&address.parse().unwrap(), Duration::from_secs(3)).is_ok();
+
+        let connection_test: bool =
+            TcpStream::connect_timeout(&address.parse().unwrap(), Duration::from_secs(3)).is_ok();
         assert_eq!(connection_test, true);
     }
 
@@ -96,8 +101,9 @@ mod tests {
         let target_ip: IpAddr = IpAddr::V4(Ipv4Addr::new(127, 0, 0, 0)); // not valid address
         let target_port = "8080";
         let address = format!("{}:{}", target_ip, target_port);
-        
-        let connection_test: bool = TcpStream::connect_timeout(&address.parse().unwrap(), Duration::from_secs(3)).is_ok();
+
+        let connection_test: bool =
+            TcpStream::connect_timeout(&address.parse().unwrap(), Duration::from_secs(3)).is_ok();
         assert_eq!(connection_test, false);
     }
 }

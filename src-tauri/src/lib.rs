@@ -20,10 +20,10 @@ pub fn run() {
 
 #[tauri::command]
 fn init_sniffer(target_ip: IpAddr, target_port: &str, wordlist_path: &str, app_handle: AppHandle) {
-    commands::commands::start_scanner(target_ip, target_port, wordlist_path, app_handle);
+    commands::command::start_scanner(target_ip, target_port, wordlist_path, app_handle);
 }
 
 #[tauri::command]
 fn init_enum() {
-    commands::commands::start_enumerator();
+    commands::command::start_enumerator();
 }
