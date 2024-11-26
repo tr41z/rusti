@@ -17,10 +17,13 @@ pub fn read_wordlist(dir: &str) -> Result<Vec<String>, &str> {
 
 // Function to get ip, port, word and construct full request ready payload to be sent
 pub fn construct_payload<'a>(target_ip: IpAddr, target_port: &str, word: &'a str) -> Result<String, &'a str> {
-    if target_ip.is_ipv4() || target_ip.is_unspecified() { // validity checks
-        Ok(format!("http://{}:{}/{}", target_ip, target_port, word)) // construct payload
-    } else {
-        Err("Not valid ipv4 address!")
+    if !target_ip.is_ipv4() && !target_ip.is_unspecified() {
+        return Err("Not valid ipv4 address!");
+    }
+
+    match target_port.parse::<u16>() {
+        Ok(_) => Ok(format!("http://{}:{}/{}", target_ip, target_port, word)),
+        Err(_) => Err("Not valid port number!"),
     }
 }
 

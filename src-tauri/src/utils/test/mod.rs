@@ -44,7 +44,7 @@ mod tests {
     #[test]
     fn test_construct_payload_success() {
         let target_ip: IpAddr = IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1));
-        let target_port:&str = "80";
+        let target_port: &str = "80";
         let word = "word1";
 
         let result = construct_payload(target_ip, target_port, word).unwrap();
@@ -52,13 +52,33 @@ mod tests {
     }
 
     #[test]
-    fn test_construct_payload_failed() {
+    fn test_construct_payload_not_valid_ipv4() {
         let target_ip: IpAddr = IpAddr::V6(Ipv6Addr::new(12, 12, 12, 12, 12, 12, 12, 12));
-        let target_port:&str = "80";
+        let target_port: &str = "80";
         let word = "word1";
 
         let result = construct_payload(target_ip, target_port, word);
         assert_eq!(result, Err("Not valid ipv4 address!"));
+    }
+
+    #[test]
+    fn test_construct_payload_negative_port() {
+        let target_ip: IpAddr = IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1));
+        let target_port: &str = "-80";
+        let word = "word1";
+
+        let result = construct_payload(target_ip, target_port, word);
+        assert_eq!(result, Err("Not valid port number!"));
+    }
+
+    #[test]
+    fn test_construct_payload_too_high_port() {
+        let target_ip: IpAddr = IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1));
+        let target_port: &str = "800000000";
+        let word = "word1";
+
+        let result = construct_payload(target_ip, target_port, word);
+        assert_eq!(result, Err("Not valid port number!"));
     }
 
     #[test]
